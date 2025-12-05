@@ -1,124 +1,126 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
-  BookOpen,
   Users,
   Award,
   Clock,
   Shield,
   BarChart,
   ChevronRight,
-  // CheckCircle,
-  Sparkles
-} from 'lucide-react'
+  Sparkles,
+  LucideIcon,
+  Mail,
+  Github,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
+
+import SchoolLogo from "../app/assets/ferscoat-logo-1.jpg";
+import SchoolbuildingLogo from "../app/assets/fca-building-1.png";
+import CookiesPreference from './components/cookiesPreference/CookiesPreference';
+
+interface FeatureItem {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
 
 export default function LandingPage() {
-  const router = useRouter()
+  const router = useRouter();
+   const [showCookies, setShowCookies] = useState(true);
 
-  const features = [
-    {
-      icon: BookOpen,
-      title: 'Smart Question Bank',
-      description:
-        'Comprehensive question management system with subject categorization and easy import/export.'
-    },
+  const features: FeatureItem[] = [
     {
       icon: Clock,
-      title: 'Automated Testing',
-      description:
-        'Timed exams with automatic submission and real-time progress tracking.'
+      title: "Automated Testing",
+      description: "Timed exams with automatic submission & progress tracking.",
     },
     {
       icon: Shield,
-      title: 'Secure & Reliable',
-      description:
-        'Advanced security measures to prevent cheating and ensure exam integrity.'
+      title: "Secure & Reliable",
+      description: "Exam integrity with anti-cheat and secure delivery.",
     },
     {
       icon: BarChart,
-      title: 'Detailed Analytics',
-      description:
-        'Comprehensive performance reports and insights for students and teachers.'
+      title: "Detailed Analytics",
+      description: "Performance insights for students & teachers.",
     },
     {
       icon: Users,
-      title: 'Multi-Role Access',
-      description:
-        'Separate dashboards for administrators, teachers, and students.'
+      title: "Multi-Role Access",
+      description: "Separate dashboards for admin, teacher & student.",
     },
     {
       icon: Award,
-      title: 'Instant Results',
-      description:
-        'Get immediate feedback with automatic grading and detailed score breakdowns.'
-    }
-  ]
-
-  const benefits = [
-    'JAMB & WAEC-style test interface',
-    'Question randomization for each student',
-    'Auto-save answers as you go',
-    'Mobile-friendly responsive design',
-    'Export results to PDF or Excel',
-    'Practice mode for exam preparation'
-  ]
+      title: "Instant Results",
+      description: "Automatic grading with detailed score breakdowns.",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-  }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-indigo-50">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop:blur-lg border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-2"
             >
-              <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                FERSCOAT INTERNATIONAL SCHOOL CBT
+              <img
+                src={SchoolLogo.src}
+                alt="School Logo"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-contain"
+              />
+              <span className="text-sm sm:text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                FERSCOAT INT'L SCHOOL CBT
               </span>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-4"
+              className="flex items-center gap-2 sm:gap-4"
             >
               <button
-                onClick={() => router.push('/login')}
-                className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition"
+                onClick={() => router.push("/login")}
+                className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm text-gray-700 font-medium hover:text-blue-600 transition"
               >
                 Sign In
               </button>
               <button
-                onClick={() => router.push('/login')}
-                className="px-6 py-2 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-0.5"
+                onClick={() => router.push("/login")}
+                className="px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md sm:rounded-lg shadow hover:shadow-lg transition-all"
               >
-                Get Started
+                Entrance Exam
               </button>
             </motion.div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* HERO SECTION */}
+      <section className="pt-28 sm:pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">
+        {/* Background circles */}
+        <div className="absolute top-0 -left-20 w-56 h-56 sm:w-[500px] sm:h-[500px] bg-blue-300 rounded-full blur-[120px] opacity-25"></div>
+        <div className="absolute -bottom-20 right-0 w-56 h-56 sm:w-[500px] sm:h-[500px] bg-indigo-300 rounded-full blur-[120px] opacity-25"></div>
+
+        <div className="max-w-7xl mx-auto relative">
+          {/* HERO TEXT */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -128,96 +130,137 @@ export default function LandingPage() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full mb-6"
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="inline-flex items-center gap-2 px-3 py-1 sm:py-2 bg-blue-100 text-blue-700 rounded-full mb-4 sm:mb-6 text-xs sm:text-sm"
             >
               <Sparkles className="w-4 h-4" />
-              <span className="text-sm font-medium">
-                Next-Generation CBT Platform
-              </span>
+              <span className="font-medium">Next-Generation CBT Platform</span>
             </motion.div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Modern Computer-Based
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
+              All-In-One
               <br />
-              <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Testing Platform
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Computer-Based Testing System
               </span>
             </h1>
 
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Streamline your examination process with our advanced CBT system.
-              Create, manage, and grade exams effortlessly while providing
-              students with a seamless testing experience.
+            <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 max-w-xs sm:max-w-2xl mx-auto">
+              Smart, secure, and easy-to-use CBT platform for schools of all sizes.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => router.push('/login')}
-                className="px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-lg shadow-2xl hover:shadow-blue-500/50 transition-all flex items-center gap-2"
+                onClick={() => router.push("/login")}
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg sm:rounded-xl font-semibold shadow-md sm:shadow-xl flex items-center gap-2 text-sm sm:text-base"
               >
-                <span>Start Free Trial</span>
-                <ChevronRight className="w-5 h-5" />
+                Start Free Trial
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold text-lg border-2 border-gray-200 hover:border-blue-600 transition-all"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-white border border-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base shadow-sm sm:shadow-md"
               >
                 Watch Demo
               </motion.button>
             </div>
           </motion.div>
 
-          {/* Hero Mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="mt-20"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-r from-blue-400 to-indigo-400 rounded-3xl blur-3xl opacity-20"></div>
-              <div className="relative bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="col-span-2 space-y-4">
-                    <div className="h-12 bg-linear-to-r from-blue-100 to-indigo-100 rounded-lg"></div>
-                    <div className="h-32 bg-gray-100 rounded-lg"></div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="h-20 bg-blue-50 rounded-lg"></div>
-                      <div className="h-20 bg-indigo-50 rounded-lg"></div>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="h-20 bg-green-50 rounded-lg"></div>
-                    <div className="h-20 bg-yellow-50 rounded-lg"></div>
-                    <div className="h-20 bg-purple-50 rounded-lg"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          {/* HERO IMAGE */}
+          {/* HERO IMAGE (FLEX MODE) */}
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.4, duration: 0.7 }}
+  className="mt-12 sm:mt-16 flex flex-col lg:flex-row items-center 
+             gap-6 lg:gap-10 w-full px-4 sm:px-6 md:px-8"
+>
+  {/* School Building Image */}
+  <div className="relative w-full lg:w-1/2 flex-shrink-0">
+    {/* Glow */}
+    <div className="absolute inset-0 bg-gradient-to-r 
+                    from-blue-500 to-indigo-500 rounded-2xl 
+                    blur-3xl opacity-20"></div>
+
+    <div className="relative bg-white rounded-2xl shadow-xl 
+                    p-3 sm:p-4 border border-gray-100 overflow-hidden">
+      <img
+        src={SchoolbuildingLogo.src}
+        alt="School Building"
+        className="w-full h-52 xs:h-60 sm:h-72 md:h-80 lg:h-96 
+                   object-cover rounded-xl"
+      />
+
+      {/* Floating Badge */}
+      <div className="absolute top-4 left-4 bg-blue-600 text-white 
+                      text-xs sm:text-sm md:text-base px-3 py-1 
+                      rounded-full shadow-lg flex items-center gap-2">
+        <Shield className="w-4 h-4" />
+        Accredited Centre
+      </div>
+
+      {/* Small bottom badge */}
+      <div className="absolute bottom-4 right-4 bg-white text-gray-700 
+                      text-xs px-2 py-1 rounded-full shadow">
+        School Facility
+      </div>
+    </div>
+  </div>
+
+  {/* CBT Online Image */}
+  <div className="relative w-full lg:w-1/2 flex-shrink-0">
+    {/* Glow */}
+    <div className="absolute inset-0 bg-gradient-to-r 
+                    from-indigo-500 to-purple-500 rounded-2xl 
+                    blur-3xl opacity-20"></div>
+
+    <div className="relative bg-white rounded-2xl shadow-xl p-3 sm:p-4 
+                    border border-gray-100 overflow-hidden">
+      <img
+        src="https://images.pexels.com/photos/31115182/pexels-photo-31115182.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load"
+        alt="CBT Online Exam"
+        className="w-full h-52 xs:h-60 sm:h-72 md:h-80 lg:h-96 
+                   object-cover rounded-xl"
+      />
+
+      {/* Floating Badge */}
+      <div className="absolute top-4 left-4 bg-purple-600 text-white 
+                      text-xs sm:text-sm md:text-base px-3 py-1 
+                      rounded-full shadow-lg flex items-center gap-2">
+        <BarChart className="w-4 h-4" />
+        Online CBT Exam
+      </div>
+
+      {/* Bottom badge */}
+      <div className="absolute bottom-4 right-4 bg-white text-gray-700 
+                      text-xs px-2 py-1 rounded-full shadow">
+        Powered by Tech
+      </div>
+    </div>
+  </div>
+</motion.div>
+
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* FEATURES SECTION */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
               Everything You Need for Modern Testing
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Powerful features designed to make examination management simple
-              and effective
+            <p className="text-base sm:text-lg text-gray-600 max-w-xs sm:max-w-2xl mx-auto mt-2">
+              Powerful features designed to simplify your entire exam process
             </p>
           </motion.div>
 
@@ -226,29 +269,89 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {features.map((feature, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
                 whileHover={{ y: -5 }}
-                className="bg-linear-to-br from-white to-gray-50 p-6 rounded-2xl border border-gray-200 hover:border-blue-300 transition-all shadow-lg hover:shadow-xl"
+                className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-100 shadow-md sm:shadow-lg hover:shadow-xl transition-all"
               >
-                <div className="w-12 h-12 bg-linear-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4">
+                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
+                <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
+
+      {/* FOOTER */}
+      <footer className="bg-gray-50 border-t border-gray-100 mt-12 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* About with logo */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <img
+                  src={SchoolLogo.src}
+                  alt="School Logo"
+                  className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+                />
+                <h3 className="text-lg font-bold text-gray-900 mb-0">FERSCOAT CBT</h3>
+              </div>
+              <p className="text-gray-600 text-sm sm:text-base mt-2">
+                Modern computer-based testing platform for schools. Streamline exams, track performance, and ensure secure testing for all students.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-3 sm:mb-4">Quick Links</h4>
+              <ul className="space-y-1 sm:space-y-2">
+                <li><a href="#features" className="text-gray-600 hover:text-blue-600 transition">Features</a></li>
+                <li><a href="#pricing" className="text-gray-600 hover:text-blue-600 transition">Pricing</a></li>
+                <li><a href="/login" className="text-gray-600 hover:text-blue-600 transition">Login</a></li>
+                <li><a href="#contact" className="text-gray-600 hover:text-blue-600 transition">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-3 sm:mb-4">Resources</h4>
+              <ul className="space-y-1 sm:space-y-2">
+                <li><a href="#blog" className="text-gray-600 hover:text-blue-600 transition">Blog</a></li>
+                <li><a href="#docs" className="text-gray-600 hover:text-blue-600 transition">Documentation</a></li>
+                <li><a href="#faq" className="text-gray-600 hover:text-blue-600 transition">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-md font-semibold text-gray-900 mb-3 sm:mb-4">Contact Us</h4>
+              <ul className="space-y-1 sm:space-y-2 text-gray-600 text-sm sm:text-base">
+                <li className="flex items-center gap-2"><Mail className="w-4 h-4 sm:w-5 sm:h-5" /> info@ferscoat.com</li>
+                <li className="flex items-center gap-2"><Github className="w-4 h-4 sm:w-5 sm:h-5" /> <a href="https://github.com/ferscoat" className="hover:text-blue-600 transition">Github</a></li>
+                <li className="flex items-center gap-2"><Twitter className="w-4 h-4 sm:w-5 sm:h-5" /> <a href="https://twitter.com/ferscoat" className="hover:text-blue-600 transition">Twitter</a></li>
+                <li className="flex items-center gap-2"><Linkedin className="w-4 h-4 sm:w-5 sm:h-5" /> <a href="https://linkedin.com/company/ferscoat" className="hover:text-blue-600 transition">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 sm:mt-12 border-t border-gray-100 pt-4 text-center text-gray-500 text-sm sm:text-base">
+            &copy; {new Date().getFullYear()} FERSCOAT INT'L SCHOOL. All rights reserved.
+          </div>
+        </div>
+
+        {/* Cookies popup */}
+        <CookiesPreference/>
+      </footer>
     </div>
-  )
+  );
 }

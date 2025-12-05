@@ -12,24 +12,28 @@ import {
   AlertCircle,
   Loader2,
 } from 'lucide-react';
-import { authenticateUser, saveUserSession } from '../../lib/auth/roleUtils';
 import SchoolLogo from "../../assets/ferscoat-logo-1.jpg";
 import Link from 'next/link';
 
 interface FormData {
+  fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
   rememberMe: boolean;
 }
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState<FormData>({
+    fullName: '',
     email: '',
     password: '',
+    confirmPassword: '',
     rememberMe: false,
   });
 
@@ -47,24 +51,23 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Simulate API call delay
+      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Authenticate user
-      const user = authenticateUser(formData.email, formData.password);
+      // TODO: Replace with your signup API logic
+      console.log("Signup data:", formData);
 
-      if (user) {
-        // Save user session
-        saveUserSession(user);
-
-        // Redirect based on role
-        router.push(`/${user.role}`);
-      } else {
-        setError('Invalid email or password. Please try again.');
-      }
+      // Redirect to login after signup
+      router.push("/login");
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -83,10 +86,10 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="flex items-center justify-center space-x-2 mb-4 pt-5">
             <img
-                src={SchoolLogo.src}
-                alt="School Logo"
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-contain"
-              />
+              src={SchoolLogo.src}
+              alt="School Logo"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-contain"
+            />
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               FERSCOAT CBT
             </span>
@@ -95,27 +98,10 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Welcome Back
+              Create Account
             </h1>
-            <p className="text-gray-600">Sign in to access your dashboard</p>
+            <p className="text-gray-600">Sign up to access the CBT platform</p>
           </div>
-
-          {/* Demo Credentials Info */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg"
-          >
-            <p className="text-sm font-semibold text-blue-900 mb-2">
-              Demo Credentials:
-            </p>
-            <div className="space-y-1 text-xs text-blue-700">
-              <p>• Admin: admin@ferscoat.edu / admin123</p>
-              <p>• Teacher: teacher@ferscoat.edu / teacher123</p>
-              <p>• Student: student@ferscoat.edu / student123</p>
-            </div>
-          </motion.div>
 
           {/* Error Message */}
           {error && (
@@ -131,7 +117,27 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
+            {/* Full Name */}
+            <div>
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Full Name
+              </label>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                required
+                value={formData.fullName}
+                onChange={handleChange}
+                className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -156,7 +162,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -171,7 +177,7 @@ export default function LoginPage() {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   required
                   value={formData.password}
                   onChange={handleChange}
@@ -192,23 +198,52 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <span className="ml-2 text-sm text-gray-700">Remember me</span>
+            {/* Confirm Password */}
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Confirm Password
               </label>
-              <Link href="/forgot-password"
-                type="button"
-                className="text-sm font-medium text-blue-600 hover:text-blue-700">
-                Forgot password?
-              </Link>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  required
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Confirm your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember Me */}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleChange}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="ml-2 text-sm text-gray-700">Remember me</span>
             </div>
 
             {/* Submit Button */}
@@ -222,10 +257,10 @@ export default function LoginPage() {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Signing in...</span>
+                  <span>Signing up...</span>
                 </>
               ) : (
-                <span>Sign In</span>
+                <span>Sign Up</span>
               )}
             </motion.button>
           </form>
@@ -233,29 +268,32 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
-              <Link href='/signup' className="font-medium text-blue-600 hover:text-blue-700">
-                Signup
+              Already have an account?{' '}
+              <Link
+                href="/login"
+                className="font-medium text-blue-600 hover:text-blue-700"
+              >
+                Login
               </Link>
             </p>
           </div>
         </motion.div>
       </div>
 
-      {/* Right Side - Image/Graphics */}
+      {/* Right Side - Hero Image */}
       <motion.div
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.7 }}
         className="hidden lg:flex flex-1 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden"
       >
-        {/* Decorative Elements */}
+        {/* Decorative Circles */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         </div>
 
-        {/* Content */}
+        {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full p-12 text-white">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -271,23 +309,25 @@ export default function LoginPage() {
               real-time analytics
             </p>
 
-            {/* Feature Cards */}
             <div className="grid grid-cols-2 gap-6 max-w-2xl">
-              {[
-                { icon: BookOpen, label: 'Smart Testing' },
-                { icon: Lock, label: 'Secure Platform' },
-                { icon: Eye, label: 'Real-time Monitoring' },
-                { icon: AlertCircle, label: 'Instant Results' },
-              ].map((item, index) => (
+              {[BookOpen, Lock, Eye, AlertCircle].map((Icon, i) => (
                 <motion.div
-                  key={index}
+                  key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
+                  transition={{ delay: 0.5 + i * 0.1 }}
                   className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20"
                 >
-                  <item.icon className="w-8 h-8 mx-auto mb-3" />
-                  <p className="font-medium">{item.label}</p>
+                  <Icon className="w-8 h-8 mx-auto mb-3" />
+                  <p className="font-medium">
+                    {i === 0
+                      ? 'Smart Testing'
+                      : i === 1
+                      ? 'Secure Platform'
+                      : i === 2
+                      ? 'Real-time Monitoring'
+                      : 'Instant Results'}
+                  </p>
                 </motion.div>
               ))}
             </div>
