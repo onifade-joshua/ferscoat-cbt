@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter, usePathname } from 'next/navigation';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouter, usePathname } from "next/navigation";
 import {
   BookOpen,
   Clock,
@@ -23,12 +23,13 @@ import {
   Users,
   Shield,
   ClipboardList,
-  X
-} from 'lucide-react';
+  X,
+} from "lucide-react";
+import SchoolLogo from "../../../app/assets/ferscoat-logo-1.jpg";
 
 // ===== TYPE DEFINITIONS =====
 
-type UserRole = 'admin' | 'teacher' | 'student';
+type UserRole = "admin" | "teacher" | "student";
 
 interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -53,22 +54,22 @@ export default function StudentDashboard() {
 
   // Get user from localStorage (set during login)
   const [userData, setUserData] = useState<UserData>({
-    role: 'student',
-    name: 'John Student',
-    email: 'student@ferscoat.edu',
-    className: 'Class 12A'
+    role: "student",
+    name: "John Student",
+    email: "student@ferscoat.edu",
+    className: "Class 12A",
   });
 
   useEffect(() => {
     // Get user from localStorage on mount
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem('currentUser');
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("currentUser");
       if (storedUser) {
         try {
           const user = JSON.parse(storedUser);
           setUserData(user);
         } catch (error) {
-          console.error('Error parsing user data:', error);
+          console.error("Error parsing user data:", error);
         }
       }
     }
@@ -85,133 +86,133 @@ export default function StudentDashboard() {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Navigation items with role-based access
   const allNavItems: NavItem[] = [
-    { 
-      icon: Home, 
-      label: 'Dashboard', 
+    {
+      icon: Home,
+      label: "Dashboard",
       path: `/${userData.role}`,
-      allowedRoles: ['admin', 'teacher', 'student']
+      allowedRoles: ["admin", "teacher", "student"],
     },
-    { 
-      icon: ClipboardList, 
-      label: 'Questions', 
+    {
+      icon: ClipboardList,
+      label: "Questions",
       path: `/${userData.role}/questions`,
-      allowedRoles: ['admin', 'teacher'] // Only teachers and admins
+      allowedRoles: ["admin", "teacher"], // Only teachers and admins
     },
-    { 
-      icon: BookOpen, 
-      label: 'Exams', 
+    {
+      icon: BookOpen,
+      label: "Exams",
       path: `/${userData.role}/exams`,
-      allowedRoles: ['admin', 'teacher', 'student']
+      allowedRoles: ["admin", "teacher", "student"],
     },
-    { 
-      icon: BarChart3, 
-      label: 'Results', 
+    {
+      icon: BarChart3,
+      label: "Results",
       path: `/${userData.role}/results`,
-      allowedRoles: ['admin', 'teacher', 'student']
+      allowedRoles: ["admin", "teacher", "student"],
     },
-    { 
-      icon: Calendar, 
-      label: 'Schedule', 
+    {
+      icon: Calendar,
+      label: "Schedule",
       path: `/${userData.role}/schedule`,
-      allowedRoles: ['admin', 'teacher', 'student']
+      allowedRoles: ["admin", "teacher", "student"],
     },
-    { 
-      icon: Users, 
-      label: 'Users', 
-      path: '/admin/users',
-      allowedRoles: ['admin'] // Only admins
+    {
+      icon: Users,
+      label: "Users",
+      path: "/admin/users",
+      allowedRoles: ["admin"], // Only admins
     },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
+    {
+      icon: Settings,
+      label: "Settings",
       path: `/${userData.role}/settings`,
-      allowedRoles: ['admin', 'teacher', 'student']
-    }
+      allowedRoles: ["admin", "teacher", "student"],
+    },
   ];
 
   // Filter navigation items based on user role
-  const navItems = allNavItems.filter(item => 
+  const navItems = allNavItems.filter((item) =>
     item.allowedRoles.includes(userData.role)
   );
 
   const stats = [
     {
       icon: BookOpen,
-      label: 'Exams Available',
-      value: '5',
-      color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-600',
+      label: "Exams Available",
+      value: "5",
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50",
+      textColor: "text-blue-600",
     },
     {
       icon: CheckCircle,
-      label: 'Completed',
-      value: '12',
-      color: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      textColor: 'text-green-600',
+      label: "Completed",
+      value: "12",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-green-50",
+      textColor: "text-green-600",
     },
     {
       icon: TrendingUp,
-      label: 'Average Score',
-      value: '85%',
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
-      textColor: 'text-purple-600',
+      label: "Average Score",
+      value: "85%",
+      color: "from-purple-500 to-purple-600",
+      bgColor: "bg-purple-50",
+      textColor: "text-purple-600",
     },
     {
       icon: Award,
-      label: 'Rank',
-      value: '#12',
-      color: 'from-yellow-500 to-yellow-600',
-      bgColor: 'bg-yellow-50',
-      textColor: 'text-yellow-600',
+      label: "Rank",
+      value: "#12",
+      color: "from-yellow-500 to-yellow-600",
+      bgColor: "bg-yellow-50",
+      textColor: "text-yellow-600",
     },
   ];
 
   const upcomingExams = [
     {
       id: 1,
-      title: 'Mathematics Final Exam',
-      subject: 'Mathematics',
-      date: '2025-11-05',
-      time: '10:00 AM',
-      duration: '2 hours',
+      title: "Mathematics Final Exam",
+      subject: "Mathematics",
+      date: "2025-11-05",
+      time: "10:00 AM",
+      duration: "2 hours",
       questions: 50,
-      status: 'upcoming' as const,
+      status: "upcoming" as const,
     },
     {
       id: 2,
-      title: 'English Language Test',
-      subject: 'English',
-      date: '2025-11-03',
-      time: '2:00 PM',
-      duration: '1.5 hours',
+      title: "English Language Test",
+      subject: "English",
+      date: "2025-11-03",
+      time: "2:00 PM",
+      duration: "1.5 hours",
       questions: 40,
-      status: 'active' as const,
+      status: "active" as const,
     },
     {
       id: 3,
-      title: 'Physics Mid-term',
-      subject: 'Physics',
-      date: '2025-11-07',
-      time: '9:00 AM',
-      duration: '2 hours',
+      title: "Physics Mid-term",
+      subject: "Physics",
+      date: "2025-11-07",
+      time: "9:00 AM",
+      duration: "2 hours",
       questions: 45,
-      status: 'upcoming' as const,
+      status: "upcoming" as const,
     },
   ];
 
   const recentResults = [
-    { subject: 'Biology', score: 92, grade: 'A', date: '2025-10-28' },
-    { subject: 'Chemistry', score: 78, grade: 'B', date: '2025-10-25' },
-    { subject: 'History', score: 85, grade: 'B', date: '2025-10-22' },
+    { subject: "Biology", score: 92, grade: "A", date: "2025-10-28" },
+    { subject: "Chemistry", score: 78, grade: "B", date: "2025-10-25" },
+    { subject: "History", score: 85, grade: "B", date: "2025-10-22" },
   ];
 
   const containerVariants = {
@@ -226,22 +227,25 @@ export default function StudentDashboard() {
 
   // Get role badge styling
   const getRoleBadge = () => {
-    const badges: Record<UserRole, { color: string; label: string; icon: React.ReactNode }> = {
-      admin: { 
-        color: 'bg-purple-100 text-purple-700 border-purple-200', 
-        label: 'Administrator',
-        icon: <Shield className="w-3 h-3" />
+    const badges: Record<
+      UserRole,
+      { color: string; label: string; icon: React.ReactNode }
+    > = {
+      admin: {
+        color: "bg-purple-100 text-purple-700 border-purple-200",
+        label: "Administrator",
+        icon: <Shield className="w-3 h-3" />,
       },
-      teacher: { 
-        color: 'bg-blue-100 text-blue-700 border-blue-200', 
-        label: 'Teacher',
-        icon: <BookOpen className="w-3 h-3" />
+      teacher: {
+        color: "bg-blue-100 text-blue-700 border-blue-200",
+        label: "Teacher",
+        icon: <BookOpen className="w-3 h-3" />,
       },
-      student: { 
-        color: 'bg-green-100 text-green-700 border-green-200', 
-        label: 'Student',
-        icon: <User className="w-3 h-3" />
-      }
+      student: {
+        color: "bg-green-100 text-green-700 border-green-200",
+        label: "Student",
+        icon: <User className="w-3 h-3" />,
+      },
     };
     return badges[userData.role];
   };
@@ -258,14 +262,14 @@ export default function StudentDashboard() {
 
   const handleLogout = () => {
     // Clear user session
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('userRole');
-      document.cookie = 'userRole=; path=/; max-age=0';
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("userRole");
+      document.cookie = "userRole=; path=/; max-age=0";
     }
-    
+
     // Redirect to login
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
@@ -294,9 +298,11 @@ export default function StudentDashboard() {
           {/* Header with close button on mobile */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
+              <img
+                src={SchoolLogo.src}
+                alt="School Logo"
+                className=" w-8 h-12 xs:w-12 sm:w-12 md:w-13 lg:w-12 object-containmx-auto rounded-4xl"
+              />
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Ferscoat CBT
               </span>
@@ -322,8 +328,9 @@ export default function StudentDashboard() {
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4">
           <nav className="space-y-2">
             {navItems.map((item, index) => {
-              const isActive = pathname === item.path || pathname.startsWith(`${item.path}/`);
-              
+              const isActive =
+                pathname === item.path || pathname.startsWith(`${item.path}/`);
+
               return (
                 <motion.button
                   key={index}
@@ -332,12 +339,14 @@ export default function StudentDashboard() {
                   onClick={() => handleNavClick(item.path)}
                   className={`w-full flex items-center space-x-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   <item.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                  <span className="font-medium text-sm sm:text-base">{item.label}</span>
+                  <span className="font-medium text-sm sm:text-base">
+                    {item.label}
+                  </span>
                 </motion.button>
               );
             })}
@@ -348,10 +357,15 @@ export default function StudentDashboard() {
         <div className="flex-shrink-0 p-4 sm:p-6 border-t border-gray-200 bg-white">
           <div className="flex items-center space-x-3 mb-4">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-xs sm:text-sm flex-shrink-0">
-              {userData.name.split(' ').map(n => n[0]).join('')}
+              {userData.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{userData.name}</p>
+              <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">
+                {userData.name}
+              </p>
               <p className="text-xs text-gray-500 truncate">
                 {userData.className || userData.email}
               </p>
@@ -385,10 +399,12 @@ export default function StudentDashboard() {
               </motion.button>
               <div className="min-w-0 flex-1">
                 <h1 className="text-lg sm:text-2xl font-bold text-gray-900 truncate">
-                  {userData.role.charAt(0).toUpperCase() + userData.role.slice(1)} Dashboard
+                  {userData.role.charAt(0).toUpperCase() +
+                    userData.role.slice(1)}{" "}
+                  Dashboard
                 </h1>
                 <p className="text-xs sm:text-sm text-gray-500 truncate hidden sm:block">
-                  Welcome back, {userData.name.split(' ')[0]}! 👋
+                  Welcome back, {userData.name.split(" ")[0]}! 👋
                 </p>
               </div>
             </div>
@@ -431,14 +447,22 @@ export default function StudentDashboard() {
                 className="bg-white rounded-xl p-4 sm:p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all"
               >
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${stat.bgColor} flex items-center justify-center`}>
-                    <stat.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.textColor}`} />
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${stat.bgColor} flex items-center justify-center`}
+                  >
+                    <stat.icon
+                      className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.textColor}`}
+                    />
                   </div>
-                  <div className={`px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${stat.color} text-white text-[10px] sm:text-xs font-semibold rounded-full`}>
+                  <div
+                    className={`px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${stat.color} text-white text-[10px] sm:text-xs font-semibold rounded-full`}
+                  >
                     +12%
                   </div>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{stat.value}</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
+                  {stat.value}
+                </h3>
                 <p className="text-xs sm:text-sm text-gray-600">{stat.label}</p>
               </motion.div>
             ))}
@@ -455,8 +479,10 @@ export default function StudentDashboard() {
               >
                 <div className="p-4 sm:p-6 border-b border-gray-200">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg sm:text-xl font-bold text-gray-900">Upcoming Exams</h2>
-                    <button 
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                      Upcoming Exams
+                    </h2>
+                    <button
                       onClick={() => router.push(`/${userData.role}/exams`)}
                       className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-1"
                     >
@@ -465,7 +491,7 @@ export default function StudentDashboard() {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="divide-y divide-gray-200">
                   {upcomingExams.map((exam, index) => (
                     <motion.div
@@ -473,22 +499,30 @@ export default function StudentDashboard() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.05)' }}
+                      whileHover={{
+                        backgroundColor: "rgba(59, 130, 246, 0.05)",
+                      }}
                       className="p-4 sm:p-6 transition-colors cursor-pointer"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between space-y-3 sm:space-y-0">
                         <div className="flex-1">
                           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-3">
-                            <h3 className="text-base sm:text-lg font-semibold text-gray-900">{exam.title}</h3>
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold w-fit ${
-                              exam.status === 'active' 
-                                ? 'bg-green-100 text-green-700' 
-                                : 'bg-blue-100 text-blue-700'
-                            }`}>
-                              {exam.status === 'active' ? 'Available Now' : 'Upcoming'}
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+                              {exam.title}
+                            </h3>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold w-fit ${
+                                exam.status === "active"
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-blue-100 text-blue-700"
+                              }`}
+                            >
+                              {exam.status === "active"
+                                ? "Available Now"
+                                : "Upcoming"}
                             </span>
                           </div>
-                          
+
                           <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                             <div className="flex items-center space-x-1.5 sm:space-x-2">
                               <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
@@ -504,24 +538,34 @@ export default function StudentDashboard() {
                             </div>
                             <div className="flex items-center space-x-1.5 sm:space-x-2">
                               <FileText className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                              <span className="truncate">{exam.questions} Questions</span>
+                              <span className="truncate">
+                                {exam.questions} Questions
+                              </span>
                             </div>
                           </div>
                         </div>
-                        
+
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => router.push(`/${userData.role}/take-exam/${exam.id}`)}
+                          onClick={() =>
+                            router.push(
+                              `/${userData.role}/take-exam/${exam.id}`
+                            )
+                          }
                           className={`w-full sm:w-auto sm:ml-4 px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all flex items-center justify-center space-x-2 text-xs sm:text-sm ${
-                            exam.status === 'active'
-                              ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-xl'
-                              : 'bg-gray-100 text-gray-600'
+                            exam.status === "active"
+                              ? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-xl"
+                              : "bg-gray-100 text-gray-600"
                           }`}
-                          disabled={exam.status !== 'active'}
+                          disabled={exam.status !== "active"}
                         >
                           <PlayCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-                          <span>{exam.status === 'active' ? 'Start Exam' : 'Not Available'}</span>
+                          <span>
+                            {exam.status === "active"
+                              ? "Start Exam"
+                              : "Not Available"}
+                          </span>
                         </motion.button>
                       </div>
                     </motion.div>
@@ -540,7 +584,9 @@ export default function StudentDashboard() {
               >
                 <div className="p-4 sm:p-6 border-b border-gray-200">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg sm:text-xl font-bold text-gray-900">Recent Results</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                      Recent Results
+                    </h2>
                     <button
                       onClick={() => router.push(`/${userData.role}/results`)}
                       className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 font-medium"
@@ -549,7 +595,7 @@ export default function StudentDashboard() {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                   {recentResults.map((result, index) => (
                     <motion.div
@@ -562,15 +608,21 @@ export default function StudentDashboard() {
                       onClick={() => router.push(`/${userData.role}/results`)}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{result.subject}</h3>
-                        <span className="text-xl sm:text-2xl font-bold text-blue-600">{result.score}%</span>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
+                          {result.subject}
+                        </h3>
+                        <span className="text-xl sm:text-2xl font-bold text-blue-600">
+                          {result.score}%
+                        </span>
                       </div>
                       <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <span className={`px-2 py-1 rounded-full font-semibold ${
-                          result.grade === 'A' 
-                            ? 'bg-green-100 text-green-700' 
-                            : 'bg-blue-100 text-blue-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full font-semibold ${
+                            result.grade === "A"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                        >
                           Grade {result.grade}
                         </span>
                         <span className="text-gray-500">{result.date}</span>
